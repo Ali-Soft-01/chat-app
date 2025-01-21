@@ -2,19 +2,13 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Edit2, Check, Trash2 } from 'lucide-react'
-import { deleteMessage, updateMessage } from '@/lib/message'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { useUser } from './UserContext'
 
 export function EditableMessage({ message, ref }) {
   const [isEditing, setIsEditing] = useState(false)
   const [editedtext, setEditedtext] = useState(message.text)
 
   const handleEdit = async () => {
-    if (isEditing) {
-      await updateMessage(editedtext, message.id)
-    }
-
     setIsEditing(!isEditing)
   }
 
@@ -25,9 +19,7 @@ export function EditableMessage({ message, ref }) {
     }
   }
 
-  const user = useUser()
-
-  // console.log('EditableMessage', message)
+  const user = null
 
   return (
     <div className='flex items-start space-x-2 mb-4' ref={ref}>
@@ -63,11 +55,7 @@ export function EditableMessage({ message, ref }) {
               <Edit2 className='h-4 w-4' />
             )}
           </Button>
-          <Button
-            variant='ghost'
-            size='icon'
-            onClick={() => deleteMessage(message.id)}
-          >
+          <Button variant='ghost' size='icon' onClick={() => {}}>
             <Trash2 className='h-4 w-4' />
           </Button>
         </div>

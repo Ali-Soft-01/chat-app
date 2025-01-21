@@ -14,11 +14,11 @@ export function MessageList({ messages }) {
   return (
     <ScrollArea className='flex-grow pr-4'>
       <div className='space-y-4'>
-        {messages.map((message, index, list) => (
+        {messages.map((message, index) => (
           <EditableMessage
             key={message.id}
             message={message}
-            ref={index + 1 === list.length ? messagesEndRef : null} //Verify if the card is the last one.
+            ref={index + 1 === messages.length ? messagesEndRef : null} //Verify if the card is the last one.
           />
         ))}
       </div>

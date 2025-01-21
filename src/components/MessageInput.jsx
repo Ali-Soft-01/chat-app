@@ -3,25 +3,16 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { TypingIndicator } from './TypingIndicator'
 import { Send } from 'lucide-react'
-import { useUser } from './UserContext'
-import supabase from '@/utils/supabase/client'
-import { insertMessage } from '@/lib/message'
 
 /**
  * @param {Object} props - The properties object
- * @param {import('@supabase/realtime-js').RealtimeChannel} props.channel
- * @param {Function} props.onSendMessage
  * @param {(status: boolean) => Promise<void>} props.trackTyping
+ * @param {string[]} props.typingUsers
  */
-export function MessageInput({ onSendMessage, trackTyping, typingUsers }) {
+export function MessageInput({ typingUsers }) {
   const [message, setMessage] = useState('')
 
-  const user = useUser()
-
   const textareaRef = useRef(null)
-
-  const typingTimeoutRef = useRef(null) // Timeout reference for stopping typing
-  const isTypingRef = useRef(false) // Tracks typing state to avoid duplicate requests
 
   // auto resize textarea
   useEffect(() => {
@@ -35,9 +26,8 @@ export function MessageInput({ onSendMessage, trackTyping, typingUsers }) {
     e.preventDefault()
 
     const text = message.trim()
-    if (!text || !user) return
+    if (!text) return
 
-    await insertMessage(text)
     setMessage('')
   }
 
@@ -45,23 +35,6 @@ export function MessageInput({ onSendMessage, trackTyping, typingUsers }) {
     const { value } = e.target
 
     setMessage(value)
-
-    // Start typing: Send request once
-    if (!isTypingRef.current) {
-      await trackTyping(true)
-      isTypingRef.current = true
-    }
-
-    // Clear previous timeout
-    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
-
-    // Set timeout to stop typing after 2 seconds of inactivity
-    typingTimeoutRef.current = setTimeout(async () => {
-      if (!isTypingRef.current) return false
-
-      await trackTyping(false)
-      isTypingRef.current = false // Reset typing state
-    }, 2000)
   }
 
   const handleKeyDown = e => {

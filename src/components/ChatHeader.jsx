@@ -7,24 +7,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import supabase from '@/utils/supabase/client'
-import { useUser } from './UserContext'
 
 export function ChatHeader() {
-  const user = useUser()
+  const user = null
 
-  const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'github',
-    })
+  const handleLogin = async () => {}
 
-    if (error) {
-      console.error('error', error)
-      return
-    }
-  }
-
-  const handleLogout = async () => await supabase.auth.signOut()
+  const handleLogout = async () => {}
 
   return (
     <CardHeader className='flex flex-row items-center justify-between'>
@@ -33,7 +22,7 @@ export function ChatHeader() {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar>
-              <AvatarImage src={user.user_metadata.avatar_url} />
+              <AvatarImage src={user?.user_metadata.avatar_url} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>

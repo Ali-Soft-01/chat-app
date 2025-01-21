@@ -1,6 +1,4 @@
 import { Chat } from '@/components/Chat'
-import { signinWithGithub } from '@/utils/actions'
-import { createClientForServer } from '@/utils/supabase/server'
 
 export default async function Home() {
   return (

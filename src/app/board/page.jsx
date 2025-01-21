@@ -9,37 +9,11 @@ const generateRandomColor = () =>
 
 const Page = () => {
   const [cursors, setCursors] = useState({}) // Track other users' cursors
-  const userColorRef = useRef(generateRandomColor())
+
   const userRef = useRef(null)
-
-  const channelRef = useRef(null) // Ref for the Supabase channel
-
   userRef.current = useUser()
 
-  const EVENT_NAME = 'cursor-move'
-
-  const handleMouseMove = event => {
-    const { clientX, clientY } = event
-
-    const user = userRef.current
-
-    // Broadcast the current user's cursor position
-    channelRef.current.send({
-      type: 'broadcast',
-      event: EVENT_NAME,
-      payload: {
-        color: userColorRef.current,
-        position: {
-          x: clientX,
-          y: clientY,
-        },
-        user: {
-          id: user.id,
-          name: user.user_metadata.name,
-        },
-      },
-    })
-  }
+  const handleMouseMove = event => {}
 
   useEffect(() => {
     // Add event listener for mousemove
@@ -48,36 +22,6 @@ const Page = () => {
     // Cleanup on unmount
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
-    }
-  }, [])
-
-  useEffect(() => {
-    // Create the broadcast channel
-    const channel = supabase.channel('cursor-board')
-
-    // Listen for broadcast messages
-    channel.on('broadcast', { event: EVENT_NAME }, data => {
-      const { payload } = data
-      const { user, position, color } = payload
-
-      setCursors(prev => ({
-        ...prev,
-        [user.id]: { ...position, name: user.name, color },
-      }))
-    })
-
-    // Subscribe to the channel
-    channel.subscribe(async status => {
-      if (status === 'SUBSCRIBED') {
-        console.log('Subscribed to cursor board channel')
-      }
-    })
-
-    channelRef.current = channel
-
-    // Cleanup on unmount
-    return () => {
-      channel.unsubscribe()
     }
   }, [])
 
