@@ -46,7 +46,7 @@ export function EditableMessage({ message, ref }) {
           <p className='mt-1 whitespace-pre-wrap'>{message.text}</p>
         )}
       </div>
-      {message.user.id === user.id && (
+      {message.user.id === user?.id && (
         <div className='flex flex-nowrap gap-2'>
           <Button variant='ghost' size='icon' onClick={handleEdit}>
             {isEditing ? (
