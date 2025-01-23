@@ -31,7 +31,7 @@ export function EditableMessage({ message, ref }) {
         <div className='flex items-center'>
           <span className='font-semibold'>{message.user.name}</span>
           <span className='text-xs text-gray-500 ml-2'>
-            {message.timestamp.toLocaleTimeString()}
+            {new Date(message.created_at).toLocaleString()}
           </span>
         </div>
         {isEditing ? (
