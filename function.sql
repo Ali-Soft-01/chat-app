@@ -14,7 +14,6 @@ BEGIN
     NEW.raw_user_meta_data ->> 'name',       
     NEW.raw_user_meta_data ->> 'email',      
     NEW.raw_user_meta_data ->> 'avatar_url'
-    -- NEW.raw_user_meta_data ->> 'user_name'  -- Handle later 
   );
   RETURN NEW;
 END;

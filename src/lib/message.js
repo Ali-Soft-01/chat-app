@@ -3,13 +3,13 @@ import supabase from '@/utils/supabase/client'
 // add jsdoc comment
 /**
  * @param {string} text
- * @param {string} postID
+ * @param {string} messageID
  */
-const updateMessage = async (text, postID) => {
+const updateMessage = async (text, messageID) => {
   const { data, error } = await supabase
     .from('messages')
     .update({ text: text.trim() })
-    .eq('id', postID)
+    .eq('id', messageID)
 
   if (error) {
     console.error('error', error)
