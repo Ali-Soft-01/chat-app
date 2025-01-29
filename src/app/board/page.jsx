@@ -13,7 +13,57 @@ const Page = () => {
   const userRef = useRef(null)
   userRef.current = useUser()
 
-  const handleMouseMove = event => {}
+  const channelRef = useRef(null)
+
+  const userColorRef = useRef(generateRandomColor())
+
+  const EVENT_NAME = 'cursor-move'
+
+  const handleMouseMove = event => {
+    const { clientX, clientY } = event
+
+    const user = userRef.current
+
+    channelRef.current.send({
+      type: 'broadcast',
+      event: EVENT_NAME,
+      payload: {
+        position: {
+          x: clientX,
+          y: clientY,
+        },
+        user: {
+          name: user?.user_metadata.name,
+          id: user?.id,
+        },
+        color: userColorRef.current,
+      },
+    })
+  }
+
+  useEffect(() => {
+    const channel = supabase.channel('realtime:board')
+    channelRef.current = channel
+
+    channel
+      .on('broadcast', { event: EVENT_NAME }, data => {
+        const { user, position, color } = data.payload
+
+        setCursors(prev => ({
+          ...prev,
+          [user.id]: {
+            ...position,
+            name: user.name,
+            color,
+          },
+        }))
+      })
+      .subscribe()
+
+    return () => {
+      channel.unsubscribe()
+    }
+  }, [])
 
   useEffect(() => {
     // Add event listener for mousemove
