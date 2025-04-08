@@ -12,7 +12,7 @@ export function MessageList({ messages }) {
   }, [messages.length])
 
   return (
-    <ScrollArea className='flex-grow pr-4'>
+    <ScrollArea className='grow pr-4'>
       <div className='space-y-4'>
         {messages.map((message, index) => (
           <EditableMessage

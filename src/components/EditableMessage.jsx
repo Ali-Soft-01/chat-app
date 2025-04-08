@@ -32,7 +32,7 @@ export function EditableMessage({ message, ref }) {
         <AvatarImage src={message.user.avatar_url} />
         <AvatarFallback>{message.user.name.charAt(0)}</AvatarFallback>
       </Avatar>
-      <div className='flex-grow'>
+      <div className='grow'>
         <div className='flex items-center'>
           <span className='font-semibold'>{message.user.name}</span>
           <span className='text-xs text-gray-500 ml-2'>

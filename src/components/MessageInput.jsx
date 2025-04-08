@@ -74,7 +74,7 @@ export function MessageInput({ typingUsers, trackTyping }) {
           value={message}
           onChange={handleInputChange}
           placeholder='Type your message...'
-          className='flex-grow resize-none'
+          className='grow resize-none'
           rows={1}
         />
         <Button type='submit'>

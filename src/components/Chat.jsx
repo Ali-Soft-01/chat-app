@@ -212,7 +212,7 @@ export function Chat() {
   return (
     <Card className='w-full max-w-2xl mx-auto h-[calc(100vh-3rem)] flex flex-col'>
       <ChatHeader />
-      <CardContent className='flex-grow flex flex-col space-y-4 overflow-hidden'>
+      <CardContent className='grow flex flex-col space-y-4 overflow-hidden'>
         <MessageList messages={messages} />
         <MessageInput trackTyping={trackTyping} typingUsers={typingUsers} />
       </CardContent>
